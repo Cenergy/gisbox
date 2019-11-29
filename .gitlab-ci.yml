@@ -1,0 +1,56 @@
+stages:
+  - build
+  - deploy
+
+# cache:
+#   key: "$CI_BUILD_REF_NAME"
+#   paths:
+#     - node_modules/
+
+build_job:
+  stage: build
+  cache:
+    key: "$CI_BUILD_REF_NAME"
+    paths:
+      - node_modules/
+  script:
+    - chcp 65001
+    - cmd /c npm install
+    - cmd /c npm run build
+  artifacts:
+    name: "%CI_COMMIT_REF_NAME%-%CI_COMMIT_SHORT_SHA%"
+    paths:
+      - dist/
+  tags:
+    - 9.66_Runner
+
+# 部署与build使用相同runner使用下面配置，注释deploy2_job
+# deploy1_job:
+#   stage: deploy
+#   variables:
+#     GIT_STRATEGY: none
+#   cache: {}
+#   dependencies: []
+#   script:
+#     - chcp 65001
+#     - xcopy dist C:\test\ /C/Q/E/Y
+#   only:
+#     - master
+#   tags:
+#     - 9.66_Runner
+
+# 部署与build使用不同runner使用下面配置，注释deploy1_job
+deploy2_job:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  # cache: {}
+  dependencies:
+    - build_job
+  script:
+    - chcp 65001
+    - xcopy dist "E:\SuperMapsoftware\supermap-iserver-9.1.1-win64-zip\supermap-iserver-9.1.1-win64-zip\webapps\ROOT\GNGisDisplay" /C/Q/E/Y
+  only:
+    - master
+  tags:
+    - 9.203_Runner
