@@ -7,6 +7,10 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '/',
+    redirect: '/example',
+  },
+  {
     path: '/document',
     name: 'document',
     component: Docs,
@@ -26,13 +30,4 @@ const router = new VueRouter({
   base: __dirname,
   routes,
 });
-router.beforeEach((to, from, next) => {
-    if (to.path === '/') {
-      next({ 
-        path: '/example', // 未登录则跳转至login页面 
-      });
-    } else {
-      next();
-    }
-  });
 export default router;

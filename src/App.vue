@@ -1,13 +1,13 @@
 <template>
-  <div id="app"> 
-      <router-view/>
+  <div id="app">
+    <router-view></router-view>
   </div>
 </template>
 <script>
-export default {
-};
+export default {};
 </script>
 <style lang="scss">
+@import url("assets/css/base.css");
 html,
 body {
   width: 100%;
@@ -16,7 +16,7 @@ body {
   font-weight: 900;
   overflow: hidden;
 }
-#app{
+#app {
   width: 100%;
   height: 100%;
 }
